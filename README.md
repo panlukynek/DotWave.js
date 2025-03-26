@@ -49,9 +49,9 @@
 ## Installation
 
 ### Direct Download
-Download the library from the `dist` folder and include it in your HTML:
+Download the library from the `src` folder and include it in your HTML:
 ```xml
-<script src="https://raw.githubusercontent.com/jsem-nerad/DotWave.js/refs/heads/main/src/dotwave.js"></script>
+<script src="dotwave.js"></script>
 ```
 
 ## Basic Usage
