@@ -1,4 +1,4 @@
-<h1 align="center" style="font-size: 40px">Raspi-FM</h1>
+<h1 align="center" style="font-size: 40px">DotWave.js</h1>
 
 
   <p align="center">
