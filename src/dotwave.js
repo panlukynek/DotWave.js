@@ -230,6 +230,12 @@
         
         // Clear canvas
         this.ctx.clearRect(0, 0, this.width, this.height);
+
+        // Fill canvas with background color
+        if (this.options.backgroundColor !== 'transparent') {
+            this.ctx.fillStyle = this.options.backgroundColor;
+            this.ctx.fillRect(0, 0, this.width, this.height);
+        }
         
         // Update and draw dots
         for (let i = 0; i < this.dots.length; i++) {
@@ -300,14 +306,26 @@
             return color.replace('rgb', 'rgba').replace(')', `, ${alpha})`);
         }
         
-        // If named color or hex
-        const tempEl = document.createElement('div');
-        tempEl.style.color = color;
-        document.body.appendChild(tempEl);
-        const computedColor = window.getComputedStyle(tempEl).color;
-        document.body.removeChild(tempEl);
+        // For hex colors
+        if (color.startsWith('#')) {
+            const hex = color.substring(1);
+            const r = parseInt(hex.length === 3 ? hex.charAt(0) + hex.charAt(0) : hex.substring(0, 2), 16);
+            const g = parseInt(hex.length === 3 ? hex.charAt(1) + hex.charAt(1) : hex.substring(2, 4), 16);
+            const b = parseInt(hex.length === 3 ? hex.charAt(2) + hex.charAt(2) : hex.substring(4, 6), 16);
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
         
-        return computedColor.replace('rgb', 'rgba').replace(')', `, ${alpha})`);
+        // For named colors, use a predefined map
+        const namedColors = {
+            'white': 'rgba(255, 255, 255, ' + alpha + ')',
+            'black': 'rgba(0, 0, 0, ' + alpha + ')',
+            'red': 'rgba(255, 0, 0, ' + alpha + ')',
+            'green': 'rgba(0, 128, 0, ' + alpha + ')',
+            'blue': 'rgba(0, 0, 255, ' + alpha + ')',
+            // Add more named colors as needed
+        };
+        
+        return namedColors[color.toLowerCase()] || `rgba(255, 255, 255, ${alpha})`;
     };
     
     /**
