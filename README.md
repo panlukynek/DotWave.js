@@ -35,7 +35,7 @@
 
 
 
-![DotWave Demo](https://via.placeholder.com/800x400?text=DotWave.js+Demo)
+
 
 ## Features
 
