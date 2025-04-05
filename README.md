@@ -65,13 +65,7 @@ or you can use it remotely like this:
 <head> 
     <meta charset="UTF-8"> 
     <title>DotWave Basic Example</title> 
-    <style> 
-        body { 
-            margin: 0; 
-            padding: 0; 
-            height: 100vh; 
-            color: white; }
-    </style>
+    <style> body {height: 100vh;} </style>
 </head> 
 <body> 
     <script src="https://dotwave.vojtikdortik.eu/src/dotwave.js"></script>
