@@ -49,9 +49,13 @@
 ## Installation
 
 ### Direct Download
-Download the library from the `src` folder and include it in your HTML:
+Download the library [here](https://github.com/jsem-nerad/DotWave.js/blob/main/src/dotwave.js) from the [`src`](https://github.com/jsem-nerad/DotWave.js/tree/main/src) folder and include it in your HTML:
 ```xml
 <script src="dotwave.js"></script>
+```
+or you can use it remotely like this:
+```xml
+<script src="https://dotwave.vojtikdortik.eu/src/dotwave.js"></script>
 ```
 
 ## Basic Usage
@@ -66,23 +70,11 @@ Download the library from the `src` folder and include it in your HTML:
             margin: 0; 
             padding: 0; 
             height: 100vh; 
-            font-family: Arial, sans-serif; 
             color: white; }
-
-        .content {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            padding-top: 20vh;
-        }
     </style>
 </head> 
 <body> 
-    <div class="content"> 
-        <h1>DotWave.js Demo</h1> 
-        <p>Move your cursor to interact with the dots.</p> 
-    </div>
-    <script src="dotwave.js"></script>
+    <script src="https://dotwave.vojtikdortik.eu/src/dotwave.js"></script>
     <script>
         // Initialize with default options
         const dotwave = new DotWave();
@@ -138,4 +130,4 @@ dotwave.destroy();
 
 
 ## Contributing
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Please feel free to submit a pull request or an issue.
