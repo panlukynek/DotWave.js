@@ -71,7 +71,7 @@ or you can use it remotely like this:
     <script src="https://dotwave.vojtikdortik.eu/src/dotwave.js"></script>
     <script>
         // Initialize with default options
-        const dotwave = new DotWave();
+        const dotwave = new DotWave({container: 'body'});
     </script>
 </body> 
 </html> 
