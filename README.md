@@ -2,7 +2,7 @@
 
 
   <p align="center">
-    <img src="nothing yet" style="width: 30%; height: auto;" alt="nothing yet">
+    <img src="https://raw.githubusercontent.com/jsem-nerad/DotWave.js/refs/heads/main/images/preview.png" style="width: 30%; height: auto;" alt="Preview screenshot">
     <br />
     A lightweight JavaScript library that creates interactive dot backgrounds
     <br />
@@ -21,12 +21,12 @@
   <ol>
     <li><a href="#about">About</a></li>
     <li>
-      <a href="#features">Features</a>
+      <a href="#"></a>
     </li>
     <li>
-      <a href="#installation">Installation</a>
+      <a href="#"></a>
     </li>
-    <li><a href="#supported-devices">Supported devices</a></li>
+    <li><a href="#"></a></li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#to-do">To-Do</a></li>
     <li><a href="#license">License</a></li>
