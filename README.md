@@ -1,19 +1,14 @@
 <h1 align="center" style="font-size: 40px">DotWave.js</h1>
-
-
-  <p align="center">
-    <img src="https://raw.githubusercontent.com/jsem-nerad/DotWave.js/refs/heads/main/images/preview.png" style="width: 30%; height: auto;" alt="Preview screenshot">
-    <br />
-    A lightweight JavaScript library that creates interactive dot backgrounds
-    <br />
-    <br />
-    <a href="https://github.com/jsem-nerad/DotWave.js/issues/new?labels=bug&template=bug-report---.md">Report a Bug</a>
-    ·
-    <a href="https://github.com/jsem-nerad/DotWave.js/issues/new?labels=enhancement&template=feature-request---.md">Request a Feature</a>
-  </p>
-</div>
-
-
+<p align="center">
+  <img src="https://raw.githubusercontent.com/jsem-nerad/DotWave.js/refs/heads/main/images/preview.png" style="width: 30%; height: auto;" alt="Preview screenshot">
+  <br />
+  A lightweight JavaScript library that creates interactive dot backgrounds
+  <br />
+  <br />
+  <a href="https://github.com/jsem-nerad/DotWave.js/issues/new?labels=bug&template=bug-report---.md">Report a Bug</a>
+  ·
+  <a href="https://github.com/jsem-nerad/DotWave.js/issues/new?labels=enhancement&template=feature-request---.md">Request a Feature</a>
+</p>
 
 <!-- TABLE OF CONTENTS 
 <details>
@@ -34,8 +29,6 @@
 </details> -->
 
 ### Try now on [dotwave.vojtikdortik.eu](https://dotwave.vojtikdortik.eu/)
-
-
 
 ## Features
 
@@ -96,7 +89,12 @@ const dotwave = new DotWave({
     friction: 0.97,              // Movement friction
     maxSpeed: 3,                 // Maximum dot speed
     responsive: true,            // Automatically resize with container
-    zIndex: -1                   // Canvas z-index
+    zIndex: -1,                  // Canvas z-index
+    mouseSpeedDecay: 0.85,       // How quickly mouse speed decays
+    maxMouseSpeed: 15,           // Maximum mouse speed to prevent jumps
+    dotStretch: true,            // Enable dot stretching based on velocity
+    dotStretchMultiplier: 3,     // How much the dots stretch
+    dotStretchMaxStretch: 20     // Maximum stretch amount
 });
 ```
 
@@ -120,8 +118,6 @@ dotwave.updateOptions({
 // Clean up when done
 dotwave.destroy();
 ```
-
-
 
 ## Contributing
 Contributions are welcome! Please feel free to submit a pull request or an issue.
