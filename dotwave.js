@@ -1,7 +1,7 @@
 /**
- * DotWave.js - Interactive Dots Background Library
- * Create animated dot backgrounds that react to cursor movement
- * @version 1.1.0
+ * DotWave.js - Interactive Dots Canvas Library
+ * Creates animated dots that react to cursor movement
+ * @version 1.2.0
  */
 (function(global) {
     'use strict';
@@ -31,8 +31,10 @@
             mouseSpeedDecay: 0.85,       // How quickly mouse speed decays
             maxMouseSpeed: 15,           // Maximum mouse speed to prevent jumps
             dotStretch: true,            // Enable dot stretching based on velocity
-            dotStretchMultiplier: 3,     // How much to stretch dots (multiplier)
-            dotStretchMaxStretch: 20     // Maximum stretch amount (prevents extreme stretching)
+            dotStretchMult: 3,           // How much to stretch dots (multiplier)
+            dotMaxStretch: 20,           // Maximum stretch amount (prevents extreme stretching)
+            rotSmoothing: true,          // Enable/disable rotation smoothing of dots
+            rotSmoothingIntensity: 150   // Rotation smoothing duration in milliseconds
         };
         
         // Merge options with defaults
@@ -207,7 +209,7 @@
             // z represents depth (0 = far, 1 = close)
             const z = Math.random();
             
-            this.dots.push({
+            const dot = {
                 x: Math.random() * this.width,
                 y: Math.random() * this.height,
                 z: z, // Depth value
@@ -217,7 +219,21 @@
                 vy: (Math.random() - 0.5) * 1.5,
                 // Deeper dots move slower to create parallax effect
                 speedMultiplier: 0.3 + z * 0.7
-            });
+            };
+            
+            // Only add rotation properties if stretching is enabled
+            if (this.options.dotStretch) {
+                if (this.options.rotSmoothing) {
+                    // Smooth rotation: track current and target angles
+                    dot.currentAngle = 0;
+                    dot.targetAngle = 0;
+                } else {
+                    // Instant rotation: only need current angle
+                    dot.currentAngle = 0;
+                }
+            }
+            
+            this.dots.push(dot);
         }
     };
     
@@ -293,42 +309,88 @@
     };
     
     /**
-     * Draw a stretched dot based on its velocity
-     * @param {Object} dot - The dot object
+     * Smooth angle interpolation with proper wrapping
+     * @param {Number} current - Current angle
+     * @param {Number} target - Target angle
+     * @param {Number} factor - Interpolation factor (0-1)
+     * @return {Number} New interpolated angle
      */
-    DotWave.prototype._drawStretchedDot = function(dot) {
+    DotWave.prototype._lerpAngle = function(current, target, factor) {
+        // Calculate the shortest angular distance
+        let diff = target - current;
+        
+        // Wrap the difference to [-π, π]
+        while (diff > Math.PI) diff -= 2 * Math.PI;
+        while (diff < -Math.PI) diff += 2 * Math.PI;
+        
+        // Interpolate and wrap result
+        let result = current + diff * factor;
+        
+        // Keep angle in [0, 2π] range
+        while (result < 0) result += 2 * Math.PI;
+        while (result >= 2 * Math.PI) result -= 2 * Math.PI;
+        
+        return result;
+    };
+    
+    /**
+     * Draw a dot (stretched or regular based on options and velocity)
+     * @param {Object} dot - The dot object
+     * @param {Number} deltaTime - Time elapsed since last frame
+     */
+    DotWave.prototype._drawDot = function(dot, deltaTime) {
+        const fillStyle = this._getRGBA(this.options.dotColor, dot.alpha);
+        
+        // Early exit for regular dots when stretching is disabled
         if (!this.options.dotStretch) {
-            // Draw regular circle
             this.ctx.beginPath();
             this.ctx.arc(dot.x, dot.y, dot.radius, 0, Math.PI * 2);
-            this.ctx.fillStyle = this._getRGBA(this.options.dotColor, dot.alpha);
+            this.ctx.fillStyle = fillStyle;
             this.ctx.fill();
             return;
         }
         
-        // Calculate velocity magnitude
-        const speed = Math.sqrt(dot.vx * dot.vx + dot.vy * dot.vy);
+        // Only calculate stretching-related values when stretching is enabled
+        const vxSq = dot.vx * dot.vx;
+        const vySq = dot.vy * dot.vy;
+        const speed = Math.sqrt(vxSq + vySq);
         
         // Calculate stretch amount proportional to speed
         const normalizedSpeed = Math.min(speed / this.options.maxSpeed, 1);
-        let stretchAmount = normalizedSpeed * this.options.dotStretchMultiplier;
+        let stretchAmount = normalizedSpeed * this.options.dotStretchMult;
         
         // Apply maximum stretch limit if defined
-        if (this.options.dotStretchMaxStretch) {
-            stretchAmount = Math.min(stretchAmount, this.options.dotStretchMaxStretch);
+        if (this.options.dotMaxStretch) {
+            stretchAmount = Math.min(stretchAmount, this.options.dotMaxStretch);
         }
         
         // If there's no significant stretch, draw regular circle
         if (stretchAmount < 0.01) {
             this.ctx.beginPath();
             this.ctx.arc(dot.x, dot.y, dot.radius, 0, Math.PI * 2);
-            this.ctx.fillStyle = this._getRGBA(this.options.dotColor, dot.alpha);
+            this.ctx.fillStyle = fillStyle;
             this.ctx.fill();
             return;
         }
         
-        // Calculate stretch parameters
-        const angle = Math.atan2(dot.vy, dot.vx);
+        // Calculate target angle based on velocity
+        const targetAngle = Math.atan2(dot.vy, dot.vx);
+        
+        // Handle rotation based on rotSmoothing setting
+        if (this.options.rotSmoothing) {
+            // Smooth rotation: interpolate towards target
+            dot.targetAngle = targetAngle;
+            
+            // Calculate rotation lerp factor based on deltaTime and rotSmoothingIntensity
+            const rotationFactor = this.options.rotSmoothingIntensity <= 0 ? 
+                1 : Math.min(deltaTime / this.options.rotSmoothingIntensity, 1);
+            
+            // Smoothly interpolate current angle towards target
+            dot.currentAngle = this._lerpAngle(dot.currentAngle, dot.targetAngle, rotationFactor);
+        } else {
+            // Instant rotation: directly set angle
+            dot.currentAngle = targetAngle;
+        }
         
         // Calculate ellipse dimensions
         const radiusX = dot.radius + stretchAmount;
@@ -339,12 +401,12 @@
         
         // Translate to dot position and rotate
         this.ctx.translate(dot.x, dot.y);
-        this.ctx.rotate(angle);
+        this.ctx.rotate(dot.currentAngle);
         
         // Draw stretched ellipse
         this.ctx.beginPath();
         this.ctx.ellipse(0, 0, radiusX, radiusY, 0, 0, Math.PI * 2);
-        this.ctx.fillStyle = this._getRGBA(this.options.dotColor, dot.alpha);
+        this.ctx.fillStyle = fillStyle;
         this.ctx.fill();
         
         // Restore context state
@@ -374,42 +436,52 @@
             this.ctx.fillRect(0, 0, this.width, this.height);
         }
         
+        // Pre-calculate common values for performance
+        const influenceRadius = this.options.influenceRadius;
+        const influenceRadiusSq = influenceRadius * influenceRadius; // Avoid sqrt in distance check
+        const normalizedInfluenceStrength = this.options.influenceStrength * (deltaTime / 16.67);
+        const randomFactor = this.options.randomFactor;
+        const friction = this.options.friction;
+        const maxSpeed = this.options.maxSpeed;
+        const maxSpeedSq = maxSpeed * maxSpeed;
+        
         // Update and draw dots
         for (let i = 0; i < this.dots.length; i++) {
             const dot = this.dots[i];
             
             // Apply mouse influence if mouse is over the container
             if (this.isMouseOver) {
-                // Calculate distance to mouse
+                // Calculate distance to mouse (using squared distance to avoid sqrt)
                 const dx = this.mouseX - dot.x;
                 const dy = this.mouseY - dot.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
+                const distanceSq = dx * dx + dy * dy;
                 
                 // Apply mouse influence if dot is within range
-                if (distance < this.options.influenceRadius) {
-                    // Stronger effect when closer
-                    const influence = (1 - distance / this.options.influenceRadius) * dot.z;
+                if (distanceSq < influenceRadiusSq) {
+                    // Stronger effect when closer (calculate actual distance only when needed)
+                    const distance = Math.sqrt(distanceSq);
+                    const influence = (1 - distance / influenceRadius) * dot.z;
                     
-                    // Apply mouse speed influence - keep original strength but make frame-rate independent
-                    const normalizedInfluenceStrength = this.options.influenceStrength * (deltaTime / 16.67);
+                    // Apply mouse speed influence
                     dot.vx += this.mouseSpeedX * influence * normalizedInfluenceStrength;
                     dot.vy += this.mouseSpeedY * influence * normalizedInfluenceStrength;
                 }
             }
             
             // Add some randomness to movement
-            dot.vx += (Math.random() - 0.5) * this.options.randomFactor;
-            dot.vy += (Math.random() - 0.5) * this.options.randomFactor;
+            dot.vx += (Math.random() - 0.5) * randomFactor;
+            dot.vy += (Math.random() - 0.5) * randomFactor;
             
             // Apply friction to prevent excessive speed
-            dot.vx *= this.options.friction;
-            dot.vy *= this.options.friction;
+            dot.vx *= friction;
+            dot.vy *= friction;
             
-            // Limit maximum speed
-            const speed = Math.sqrt(dot.vx * dot.vx + dot.vy * dot.vy);
-            if (speed > this.options.maxSpeed) {
-                dot.vx = (dot.vx / speed) * this.options.maxSpeed;
-                dot.vy = (dot.vy / speed) * this.options.maxSpeed;
+            // Limit maximum speed (using squared values for performance)
+            const speedSq = dot.vx * dot.vx + dot.vy * dot.vy;
+            if (speedSq > maxSpeedSq) {
+                const scale = maxSpeed / Math.sqrt(speedSq);
+                dot.vx *= scale;
+                dot.vy *= scale;
             }
             
             // Update position based on velocity and depth
@@ -422,8 +494,8 @@
             if (dot.y < -50) dot.y = this.height + 50;
             if (dot.y > this.height + 50) dot.y = -50;
             
-            // Draw stretched dot
-            this._drawStretchedDot(dot);
+            // Draw dot
+            this._drawDot(dot, deltaTime);
         }
     };
     
@@ -499,8 +571,10 @@
     DotWave.prototype.updateOptions = function(options) {
         this.options = this._mergeOptions(this.options, options || {});
         
-        // Recreate dots if number changed
-        if (options.numDots !== undefined) {
+        // Recreate dots if number changed, stretching was toggled, or rotation settings changed
+        if (options.numDots !== undefined || 
+            options.dotStretch !== undefined || 
+            options.rotSmoothing !== undefined) {
             this._createDots();
         }
     };
