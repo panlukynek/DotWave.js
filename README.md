@@ -70,7 +70,7 @@ Or you can use it via a remote link like this:
 </html> 
 ```
 If You're putting your script tags at the top of Your HTML with the **defer** property,<br>
-make sure to also do the same to the script containing the DotWave tweaks, otherwise it won't work
+make sure to also do the same to the script containing the DotWave tweaks, otherwise it won't work.
 
 ### Configuration Options
 
@@ -95,13 +95,13 @@ const dotwave = new DotWave({
   mouseSpeedDecay: 0.85,       // How quickly mouse speed decays
   maxMouseSpeed: 15,           // Maximum mouse speed to prevent jumps
   dotStretch: true,            // Enable dot stretching based on velocity
-  dotStretchMult: 3,     // How much to stretch dots (multiplier)
-  dotMaxStretch: 20,    // Maximum stretch amount (prevents extreme stretching)
+  dotStretchMult: 3,           // How much to stretch dots (multiplier)
+  dotMaxStretch: 20,           // Maximum stretch amount (prevents extreme stretching)
   rotSmoothing: true,          // Enable/disable rotation smoothing of dots
   rotSmoothingIntensity: 150   // Rotation smoothing duration in milliseconds
 });
 ```
-*Note that `rotSmoothing: false` skips the rotation lerping calculations and is therefore more performant than using `rotSmoothingIntensity: 0`*
+*Note that `rotSmoothing: false` skips the rotation lerping calculations and is therefore more performant than using `rotSmoothingIntensity: 0`*.
 
 ### Methods
 ```JavaScript
