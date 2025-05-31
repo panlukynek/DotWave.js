@@ -1,55 +1,37 @@
-<h1 align="center" style="font-size: 40px">DotWave.js</h1>
-<p align="center">
-  <img src="https://raw.githubusercontent.com/jsem-nerad/DotWave.js/refs/heads/main/images/preview.png" style="width: 30%; height: auto;" alt="Preview screenshot">
-  <br>
-  A lightweight JavaScript library that creates interactive dot backgrounds
-  <br>
-  <br>
-  <a href="https://github.com/jsem-nerad/DotWave.js/issues/new?labels=bug&template=bug-report---.md">Report a Bug</a>
-  ·
-  <a href="https://github.com/jsem-nerad/DotWave.js/issues/new?labels=enhancement&template=feature-request---.md">Request a Feature</a>
-</p>
-
-<!-- TABLE OF CONTENTS 
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li><a href="#about">About</a></li>
-    <li>
-      <a href="#"></a>
-    </li>
-    <li>
-      <a href="#"></a>
-    </li>
-    <li><a href="#"></a></li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#to-do">To-Do</a></li>
-    <li><a href="#license">License</a></li>
-  </ol>
-</details> -->
+<div style="display: flex; justify-content: center; align-items: center; gap: 2rem;">
+  <img src="/preview.png" style="width: 15rem; height: auto;" alt="Preview screenshot">
+  <div style="display: flex; flex-direction: column;">
+    <h1>This is DotWave,</h1>
+    <p>a lightweight JavaScript library for creating interactive and satisfying dot canvases.</p>
+    <div style="display: flex; gap: 1rem;">
+      <a href="https://github.com/jsem-nerad/DotWave.js/issues/new?labels=bug&template=bug-report---.md">Report a Bug</a>
+      <a href="https://github.com/jsem-nerad/DotWave.js/issues/new?labels=enhancement&template=feature-request---.md">Request a Feature</a>
+    </div>
+  </div>
+</div>
 
 ### Try now on [dotwave.vojtikdortik.eu](https://dotwave.vojtikdortik.eu/)
 
 ## Features
 
 - Depth perception with a parallax effect
-- Fully customizable (colors, sizes, behavior)
+- Customizable (colors, sizes, behavior)
 - Dot stretching
 - Dot rotation smoothing
 - No dependencies
-- Lightweight
+- Lightweight (~8kB minified)
 
 ## Installation
 
-### Direct Download
-Download the library [here](https://github.com/jsem-nerad/DotWave.js/blob/main/dotwave.js) and include it in your HTML:
+Download the library [here](https://github.com/jsem-nerad/DotWave.js/blob/main/dotwave.min.js) and include it in your HTML:
 ```xml
-<script src="dotwave.js"></script>
+<script src="dotwave.min.js"></script>
 ```
-Or you can use it via a remote link like this:
+Or use it via a remote link like this:
 ```xml
-<script src="https://dotwave.vojtikdortik.eu/src/dotwave.js"></script>
+<script src="https://dotwave.vojtikdortik.eu/src/dotwave.min.js"></script>
 ```
+For modifying the library itself, download the [non-minified version](https://github.com/jsem-nerad/DotWave.js/blob/main/dotwave.js).
 
 ## Basic Usage
 ```xml
@@ -61,7 +43,7 @@ Or you can use it via a remote link like this:
     <style> body {height: 100vh;} </style>
 </head> 
 <body> 
-    <script src="https://dotwave.vojtikdortik.eu/src/dotwave.js"></script>
+    <script src="https://dotwave.vojtikdortik.eu/src/dotwave.min.js"></script>
     <script>
         // Initialize with default options
         const dotwave = new DotWave({container: 'body'});
@@ -69,8 +51,8 @@ Or you can use it via a remote link like this:
 </body> 
 </html> 
 ```
-If You're putting your script tags at the top of Your HTML with the **defer** property,<br>
-make sure to also do the same to the script containing the DotWave tweaks, otherwise it won't work.
+If You're putting your script tags at the top of Your HTML with the **defer** property,
+make sure to also do the same to the script containing the DotWave customization, otherwise it won't work.
 
 ### Configuration Options
 
