@@ -1,14 +1,14 @@
-<div style="display: flex; justify-content: center; align-items: center; gap: 2rem;">
-  <img src="/preview.png" style="width: 15rem; height: auto;" alt="Preview screenshot">
-  <div style="display: flex; flex-direction: column;">
-    <h1>This is DotWave,</h1>
-    <p>a lightweight JavaScript library for creating interactive and satisfying dot canvases.</p>
-    <div style="display: flex; gap: 1rem;">
-      <a href="https://github.com/jsem-nerad/DotWave.js/issues/new?labels=bug&template=bug-report---.md">Report a Bug</a>
-      <a href="https://github.com/jsem-nerad/DotWave.js/issues/new?labels=enhancement&template=feature-request---.md">Request a Feature</a>
-    </div>
+
+
+<p align="center">
+  <img src="/preview.png" style="width: 20rem; height: auto;" align="center" alt="Preview screenshot">
+  <h1>This is DotWave,</h1>
+  a lightweight JavaScript library for creating interactive and satisfying dot canvases.
+  <div style="display: flex; gap: 1rem; padding-top: 1rem">
+    <a href="https://github.com/jsem-nerad/DotWave.js/issues/new?labels=bug&template=bug-report---.md">Report a Bug</a>
+    <a href="https://github.com/jsem-nerad/DotWave.js/issues/new?labels=enhancement&template=feature-request---.md">Request a Feature</a>
   </div>
-</div>
+</p>
 
 ### Try now on [dotwave.vojtikdortik.eu](https://dotwave.vojtikdortik.eu/)
 
