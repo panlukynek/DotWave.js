@@ -6,7 +6,7 @@ const card1 = new DotWave({
   numDots: 200,
   dotMinSize: 2,
   dotMaxSize: 4,
-  influenceRadius: 1000,
+  influenceRadius: 100,
   influenceStrength: 0.25,
   dotStretchMult: 5
 });
