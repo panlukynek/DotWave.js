@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DotWave Color Palettes Example</title>
+
+    <script src="/src/dotwave.js"></script>
+    <script src="/src/dotwave-element.js"></script> <!-- extension library -->
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .demo, dot-wave {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 350px;
+        }
+
+        h2 {
+            color: white;
+            text-shadow: 0 0 8px black;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- JavaScript: dotColors array -->
+    <div id="demo-palette" class="demo">
+        <h2>dotColors palette (JavaScript)</h2>
+    </div>
+
+    <!-- JavaScript: palette with mixed color formats -->
+    <div id="demo-formats" class="demo">
+        <h2>Mixed color formats in one palette</h2>
+    </div>
+
+    <!-- HTML element: comma-separated dot-colors attribute -->
+    <dot-wave
+        dot-colors="#33a6ed, #ed33a6, gold, rgb(166, 237, 51)"
+        num-dots="300">
+        <h2>&lt;dot-wave dot-colors="..."&gt; (HTML element)</h2>
+    </dot-wave>
+
+    <script>
+        // Each dot picks one random color from the palette when created.
+        // dotColors takes precedence over dotColor.
+        new DotWave({
+            container: '#demo-palette',
+            dotColors: ['#ff6b6b', '#feca57', '#48dbfb', '#1dd1a1', '#c44dff'],
+        });
+
+        // Named, hex and rgb()/rgba() values can be mixed freely
+        const dotwave = new DotWave({
+            container: '#demo-formats',
+            dotColors: ['gold', '#33a6ed', 'rgb(238, 82, 83)', 'rgba(255, 255, 255, 0.8)'],
+        });
+
+        // Updating the palette later re-rolls every dot's color
+        // without resetting positions - try it in the console:
+        // dotwave.updateOptions({ dotColors: ['red', 'white'] });
+    </script>
+</body>
+</html>
