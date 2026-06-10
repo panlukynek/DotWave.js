@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DotWave Motion Presets Example</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .demo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 350px;
+        }
+
+        .demo h2 {
+            color: white;
+            text-shadow: 0 0 8px black;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Stream: constant flow to the right -->
+    <div id="demo-stream-right" class="demo">
+        <h2>motion: 'stream' (flowing right)</h2>
+    </div>
+
+    <!-- Stream: snowfall-like downward drift -->
+    <div id="demo-stream-down" class="demo">
+        <h2>motion: 'stream' (gentle snowfall)</h2>
+    </div>
+
+    <!-- Vortex: swirl around the center -->
+    <div id="demo-vortex" class="demo">
+        <h2>motion: 'vortex'</h2>
+    </div>
+
+    <!-- Vortex: reversed spin around an off-center point -->
+    <div id="demo-vortex-offcenter" class="demo">
+        <h2>motion: 'vortex' (reversed, off-center)</h2>
+    </div>
+
+    <script src="/src/dotwave.js"></script>
+    <script>
+        // Stream: dots constantly flow in one direction.
+        // motionAngle in degrees: 0 = right, 90 = down, 180 = left, 270 = up
+        new DotWave({
+            container: '#demo-stream-right',
+            motion: 'stream',
+            motionAngle: 0,
+            motionStrength: 0.1,
+            dotColor: '#33a6ed',
+        });
+
+        // A slow downward stream with no randomness reads as falling snow.
+        // The cursor still pushes dots around (reactive is on by default).
+        new DotWave({
+            container: '#demo-stream-down',
+            motion: 'stream',
+            motionAngle: 90,
+            motionStrength: 0.04,
+            randomFactor: 0,
+            dotColor: 'white',
+        });
+
+        // Vortex: dots swirl around motionCenterX/motionCenterY,
+        // given as fractions of the canvas size (0.5/0.5 = center)
+        new DotWave({
+            container: '#demo-vortex',
+            motion: 'vortex',
+            motionStrength: 0.15,
+            motionCenterX: 0.5,
+            motionCenterY: 0.5,
+            dotColor: '#ff9f43',
+        });
+
+        // Negative motionStrength reverses the spin direction,
+        // and the center can sit anywhere - even off-canvas
+        new DotWave({
+            container: '#demo-vortex-offcenter',
+            motion: 'vortex',
+            motionStrength: -0.15,
+            motionCenterX: 0.25,
+            motionCenterY: 0.5,
+            dotColor: '#ee5253',
+        });
+    </script>
+</body>
+</html>

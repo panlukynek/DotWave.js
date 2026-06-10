@@ -222,6 +222,8 @@ const dotwave = new DotWave({
 });
 ```
 
+You can find a demo of every shape (including image dots and a custom shape function) in [examples/dotwave-shapes.html](/examples/dotwave-shapes.html).
+
 # Color palettes
 
 Instead of a single `dotColor`, you can pass an array of colors with `dotColors`. Each dot picks one color from the palette at random when it is created:
@@ -239,6 +241,8 @@ For the HTML element, use a comma-separated list:
 ```
 
 When `dotColors` is set (and not empty), it takes precedence over `dotColor`. Updating `dotColor` or `dotColors` via `updateOptions()` re-rolls the colors of all existing dots without resetting their positions. All CSS color formats supported by `dotColor` (named, hex, RGB/RGBA) work in the palette too.
+
+You can find a palette demo in [examples/dotwave-colors.html](/examples/dotwave-colors.html).
 
 # Motion presets
 
@@ -278,6 +282,8 @@ Notes on motion presets:
 - `motionStrength` is a continuous force, so its visible speed is balanced against `friction` and capped by `maxSpeed`.
 - For `vortex`, a negative `motionStrength` reverses the spin direction.
 - The vortex center is relative to the canvas size, so `0.5`/`0.5` always stays in the middle, even after resizing. Values outside `0-1` place the center off-canvas, which works too.
+
+You can find a demo of both presets (including a snowfall and a reversed off-center vortex) in [examples/dotwave-motion.html](/examples/dotwave-motion.html).
 
 # Methods
 
